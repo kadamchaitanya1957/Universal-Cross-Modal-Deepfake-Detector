@@ -1,0 +1,133 @@
+.footer {
+  --footer-bg: #F2F4FF;
+  --footer-border: rgba(108, 117, 107, 0.15);
+  --footer-text: #2E3530;
+  --footer-text-muted: #6C756B;
+  --footer-accent: #96C5F7;
+  --footer-transition: 0.25s ease;
+
+  background: var(--footer-bg);
+  color: var(--footer-text);
+  border-top: 1px solid var(--footer-border);
+  padding: 3.5rem 1.5rem 1.5rem;
+}
+
+.footer__grid {
+  max-width: 72rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.footer__section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.footer__project-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-align:center;
+}
+
+.footer__description {
+  margin: 0;
+  max-width: 22rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--footer-text-muted);
+}
+
+.footer__heading {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--footer-text-muted);
+}
+
+.footer__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer__link {
+  color: var(--footer-text-muted);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  transition: color var(--footer-transition);
+}
+
+.footer__link:hover,
+.footer__link:focus-visible {
+  color: var(--footer-accent);
+}
+
+.footer__icons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.footer__icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--footer-border);
+  color: var(--footer-text-muted);
+  transition: color var(--footer-transition), border-color var(--footer-transition),
+    transform 0.15s ease;
+}
+
+.footer__icon-link:hover,
+.footer__icon-link:focus-visible {
+  color: var(--footer-accent);
+  border-color: var(--footer-accent);
+  transform: translateY(-0.125rem);
+}
+
+.footer__icon-link:focus-visible {
+  outline: 0.125rem solid var(--footer-accent);
+  outline-offset: 0.1875rem;
+}
+
+.footer__bottom {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--footer-border);
+  text-align: center;
+}
+
+.footer__copyright {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--footer-text-muted);
+}
+
+@media (min-width: 48rem) {
+  .footer__grid {
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .footer__section--social {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .footer__bottom {
+    text-align: left;
+  }
+}
