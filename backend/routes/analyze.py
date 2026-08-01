@@ -1,8 +1,8 @@
-
 import os
 import shutil
 
 from fastapi import APIRouter, UploadFile, File, HTTPException
+from utils.file_validation import is_allowed_file
 
 router = APIRouter(
     tags=["Analyze"]
@@ -12,9 +12,12 @@ UPLOAD_DIR = "uploads"
 
 
 @router.post("/analyze")
-async def analyze(file: UploadFile = File(None)):
-    if file is None:
-        raise HTTPException(status_code=400, detail="No file provided")
+async def analyze(file: UploadFile = File(...)):
+    if not is_allowed_file(file.content_type):
+        raise HTTPException(
+            status_code=400,
+            detail="Unsupported file type."
+        )
 
     os.makedirs(UPLOAD_DIR, exist_ok=True)
 
@@ -28,4 +31,3 @@ async def analyze(file: UploadFile = File(None)):
         "content_type": file.content_type,
         "status": "uploaded"
     }
-

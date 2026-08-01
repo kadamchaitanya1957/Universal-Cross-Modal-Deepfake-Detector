@@ -216,3 +216,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Virtual Environment
+.venv/
+
+# Environment Variables
+.env
+
+# Upload Folder
+uploads/*
+!uploads/.gitignore
