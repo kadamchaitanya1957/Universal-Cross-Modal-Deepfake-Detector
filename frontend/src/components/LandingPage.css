@@ -1,0 +1,17 @@
+.landing-page {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .landing-page__section {
+    display: flex;
+    justify-content: center;
+    padding: 0 1.5rem var(--landing-section-gap);
+  }
+  
+  @media (min-width: 48rem) {
+    .landing-page {
+      --landing-section-gap: 7rem;
+    }
+  }
