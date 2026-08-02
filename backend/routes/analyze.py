@@ -3,6 +3,7 @@ import shutil
 
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from utils.file_validation import is_allowed_file
+from services.analyzer import analyze_file
 
 router = APIRouter(
     tags=["Analyze"]
@@ -26,8 +27,11 @@ async def analyze(file: UploadFile = File(...)):
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
+    result = analyze_file(file_path)
+
     return {
-        "filename": file.filename,
-        "content_type": file.content_type,
-        "status": "uploaded"
-    }
+    "filename": file.filename,
+    "content_type": file.content_type,
+    "status": "uploaded",
+    **result
+}
