@@ -1,52 +1,88 @@
-import { useRef, useState } from "react";
-import axios from "axios";
-import { UploadCloud, Image, Video, FileText } from "lucide-react";
+import { useId, useRef, useState } from "react";
+import { UploadCloud, Image, Video, FileText, AlertCircle } from "lucide-react";
 import "./UploadCard.css";
-export default function UploadCard() {
-  const fileInputRef = useRef(null);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [result, setResult] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleChooseFileClick = () => {
-    fileInputRef.current?.click();
+
+const ACCEPTED_TYPES = ["image/*", "video/*", "application/pdf"];
+const ACCEPT_ATTRIBUTE = ACCEPTED_TYPES.join(",");
+const UNSUPPORTED_FILE_MESSAGE =
+  "Unsupported file type. Please choose an image, video, or PDF file.";
+
+function isFileTypeSupported(file) {
+  return (
+    file.type.startsWith("image/") ||
+    file.type.startsWith("video/") ||
+    file.type === "application/pdf"
+  );
+}
+
+export default function UploadCard() {
+  const inputRef = useRef(null);
+  const dragCounterRef = useRef(0);
+  const inputId = useId();
+  const errorId = useId();
+  const [fileName, setFileName] = useState(null);
+  const [error, setError] = useState(null);
+  const [isDragActive, setIsDragActive] = useState(false);
+
+  const openFilePicker = () => {
+    inputRef.current?.click();
+  };
+
+  const processFile = (file) => {
+    if (!file) {
+      return;
+    }
+
+    if (!isFileTypeSupported(file)) {
+      setFileName(null);
+      setError(UNSUPPORTED_FILE_MESSAGE);
+      return;
+    }
+
+    setError(null);
+    setFileName(file.name);
   };
 
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      setResult(null);
-      setErrorMessage("");
+    const file = event.target.files?.[0];
+    processFile(file);
+
+    if (file && !isFileTypeSupported(file)) {
+      event.target.value = "";
     }
   };
 
-  const handleAnalyze = async () => {
-    if (!selectedFile) return;
-    setErrorMessage("");
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-
-    setIsLoading(true);
-
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/analyze",
-        formData
-      );
-
-      setResult(response.data);
-    } catch (error) {
-      if (error.response) {
-        setErrorMessage(error.response.data.detail);
-      } else {
-        setErrorMessage("Unable to connect to the server.");
-      }
-    } finally {
-      setIsLoading(false);
+  const handleDragEnter = (event) => {
+    event.preventDefault();
+    dragCounterRef.current += 1;
+    if (event.dataTransfer.types.includes("Files")) {
+      setIsDragActive(true);
     }
   };
+
+  const handleDragOver = (event) => {
+    event.preventDefault();
+  };
+
+  const handleDragLeave = (event) => {
+    event.preventDefault();
+    dragCounterRef.current -= 1;
+    if (dragCounterRef.current <= 0) {
+      dragCounterRef.current = 0;
+      setIsDragActive(false);
+    }
+  };
+
+  const handleDrop = (event) => {
+    event.preventDefault();
+    dragCounterRef.current = 0;
+    setIsDragActive(false);
+
+    const file = event.dataTransfer.files?.[0];
+    processFile(file);
+  };
+
   return (
     <section className="upload-card" aria-labelledby="upload-card-heading">
       <h2 id="upload-card-heading" className="upload-card__heading">
@@ -55,9 +91,21 @@ export default function UploadCard() {
       <p className="upload-card__description">
         Upload Images, Videos or PDF Documents.
       </p>
-      <div className="upload-card__dropzone">
+
+      <div
+        className={`upload-card__dropzone${
+          isDragActive ? " upload-card__dropzone--active" : ""
+        }`}
+        onDragEnter={handleDragEnter}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+      >
         <UploadCloud className="upload-card__icon" aria-hidden="true" size={36} />
-        <p className="upload-card__dropzone-text">Drag & drop your file here</p>
+        <p className="upload-card__dropzone-text">
+          {isDragActive ? "Release to upload" : "Drag & drop your file here"}
+        </p>
+
         <ul className="upload-card__formats">
           <li className="upload-card__format">
             <Image size={16} aria-hidden="true" />
@@ -72,43 +120,39 @@ export default function UploadCard() {
             <span>PDF</span>
           </li>
         </ul>
+
+        <label htmlFor={inputId} className="upload-card__visually-hidden">
+          Choose an image, video, or PDF file to upload
+        </label>
         <input
+          ref={inputRef}
+          id={inputId}
           type="file"
-          ref={fileInputRef}
+          className="upload-card__visually-hidden"
+          accept={ACCEPT_ATTRIBUTE}
+          aria-describedby={error ? errorId : undefined}
           onChange={handleFileChange}
-          style={{ display: "none" }}
         />
+
         <button
           type="button"
           className="upload-card__button"
-          onClick={handleChooseFileClick}
+          onClick={openFilePicker}
         >
           Choose File
         </button>
-        {selectedFile && (
-          <p className="upload-card__filename">{selectedFile.name}</p>
-        )}
-        <button
-          type="button"
-          className="upload-card__button upload-card__button--analyze"
-          onClick={handleAnalyze}
-          disabled={!selectedFile || isLoading}
-        >
-          {isLoading ? "Analyzing..." : "Analyze"}
-        </button>
-        {errorMessage && (
-          <p className="upload-card__error">
-            {errorMessage}
+
+        {fileName && !error && (
+          <p className="upload-card__filename">
+            Selected file: <span>{fileName}</span>
           </p>
         )}
-        {result && (
-          <div className="upload-card__result">
-            <p><strong>Filename:</strong> {result.filename}</p>
-            <p><strong>Type:</strong> {result.content_type}</p>
-            <p><strong>Status:</strong> {result.status}</p>
-            <p><strong>Prediction:</strong> {result.prediction}</p>
-            <p><strong>Confidence:</strong> {result.confidence ?? "N/A"}</p>
-          </div>
+
+        {error && (
+          <p id={errorId} className="upload-card__error" role="alert">
+            <AlertCircle size={16} aria-hidden="true" />
+            <span>{error}</span>
+          </p>
         )}
       </div>
     </section>
