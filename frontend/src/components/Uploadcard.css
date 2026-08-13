@@ -129,3 +129,20 @@
       width: 100%;
     }
   }
+  .upload-card__visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .upload-card__dropzone--active {
+    border-color: #5b8cff;
+    background: rgba(91, 140, 255, 0.12);
+    box-shadow: 0 0 0 0.1875rem rgba(91, 140, 255, 0.18);
+  }
