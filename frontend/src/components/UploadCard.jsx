@@ -1,20 +1,11 @@
 import { useId, useRef, useState } from "react";
 import { UploadCloud, Image, Video, FileText, AlertCircle } from "lucide-react";
+import {
+  ACCEPT_ATTRIBUTE,
+  UNSUPPORTED_FILE_MESSAGE,
+  isSupportedMediaFile,
+} from "../utils/mediaTypes.js";
 import "./UploadCard.css";
-
-
-const ACCEPTED_TYPES = ["image/*", "video/*", "application/pdf"];
-const ACCEPT_ATTRIBUTE = ACCEPTED_TYPES.join(",");
-const UNSUPPORTED_FILE_MESSAGE =
-  "Unsupported file type. Please choose an image, video, or PDF file.";
-
-function isFileTypeSupported(file) {
-  return (
-    file.type.startsWith("image/") ||
-    file.type.startsWith("video/") ||
-    file.type === "application/pdf"
-  );
-}
 
 export default function UploadCard() {
   const inputRef = useRef(null);
@@ -34,7 +25,7 @@ export default function UploadCard() {
       return;
     }
 
-    if (!isFileTypeSupported(file)) {
+    if (!isSupportedMediaFile(file)) {
       setFileName(null);
       setError(UNSUPPORTED_FILE_MESSAGE);
       return;
@@ -48,7 +39,7 @@ export default function UploadCard() {
     const file = event.target.files?.[0];
     processFile(file);
 
-    if (file && !isFileTypeSupported(file)) {
+    if (file && !isSupportedMediaFile(file)) {
       event.target.value = "";
     }
   };
@@ -121,14 +112,14 @@ export default function UploadCard() {
           </li>
         </ul>
 
-        <label htmlFor={inputId} className="upload-card__visually-hidden">
+        <label htmlFor={inputId} className="visually-hidden">
           Choose an image, video, or PDF file to upload
         </label>
         <input
           ref={inputRef}
           id={inputId}
           type="file"
-          className="upload-card__visually-hidden"
+          className="visually-hidden"
           accept={ACCEPT_ATTRIBUTE}
           aria-describedby={error ? errorId : undefined}
           onChange={handleFileChange}

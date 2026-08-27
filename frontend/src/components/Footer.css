@@ -1,10 +1,10 @@
 .footer {
-  --footer-bg: #F2F4FF;
-  --footer-border: rgba(108, 117, 107, 0.15);
-  --footer-text: #2E3530;
-  --footer-text-muted: #6C756B;
-  --footer-accent: #96C5F7;
-  --footer-transition: 0.25s ease;
+  --footer-bg: var(--color-surface);
+  --footer-border: var(--color-border-subtle);
+  --footer-text: var(--color-text-strong);
+  --footer-text-muted: var(--color-text-muted);
+  --footer-accent: var(--color-accent);
+  --footer-transition: var(--transition-base);
 
   background: var(--footer-bg);
   color: var(--footer-text);
@@ -87,7 +87,7 @@
   border: 1px solid var(--footer-border);
   color: var(--footer-text-muted);
   transition: color var(--footer-transition), border-color var(--footer-transition),
-    transform 0.15s ease;
+    transform var(--transition-press);
 }
 
 .footer__icon-link:hover,
@@ -98,8 +98,8 @@
 }
 
 .footer__icon-link:focus-visible {
-  outline: 0.125rem solid var(--footer-accent);
-  outline-offset: 0.1875rem;
+  outline: var(--focus-ring-width) solid var(--footer-accent);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .footer__bottom {

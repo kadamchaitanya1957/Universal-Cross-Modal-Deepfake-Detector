@@ -2,14 +2,13 @@ import os
 import shutil
 
 from fastapi import APIRouter, UploadFile, File, HTTPException
+from config import UPLOAD_DIR
 from utils.file_validation import is_allowed_file
 from services.analyzer import analyze_file
 
 router = APIRouter(
     tags=["Analyze"]
 )
-
-UPLOAD_DIR = "uploads"
 
 
 @router.post("/analyze")

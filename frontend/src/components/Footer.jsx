@@ -1,14 +1,13 @@
 import { Github, Twitter, BookOpen } from "lucide-react";
+import { BRAND_NAME, SITE_NAV_LINKS, sectionHref } from "../constants/site.js";
 import "./Footer.css";
-
-const QUICK_LINKS = ["Home", "Features", "About"];
 
 export default function Footer() {
   return (
     <footer className="footer">
       <div className="footer__grid">
         <div className="footer__section footer__section--brand">
-          <span className="footer__project-name">Cross-Modal Detector</span>
+          <span className="footer__project-name">{BRAND_NAME}</span>
           <p className="footer__description">
             Unified detection for AI-generated media across every modality.
           </p>
@@ -17,9 +16,9 @@ export default function Footer() {
         <nav className="footer__section" aria-label="Quick links">
           <h3 className="footer__heading">Quick Links</h3>
           <ul className="footer__links">
-            {QUICK_LINKS.map((link) => (
+            {SITE_NAV_LINKS.map((link) => (
               <li key={link}>
-                <a href={`#${link.toLowerCase()}`} className="footer__link">
+                <a href={sectionHref(link)} className="footer__link">
                   {link}
                 </a>
               </li>
@@ -45,7 +44,7 @@ export default function Footer() {
 
       <div className="footer__bottom">
         <p className="footer__copyright">
-          &copy; {new Date().getFullYear()} Cross-Modal Detector. All rights reserved.
+          &copy; {new Date().getFullYear()} {BRAND_NAME}. All rights reserved.
         </p>
       </div>
     </footer>

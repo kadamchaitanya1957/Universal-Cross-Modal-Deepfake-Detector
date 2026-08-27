@@ -1,11 +1,11 @@
 .hero {
-    --hero-bg: #F2F4FF;
-    --hero-text: #000000;
-    --hero-text-muted: #6C756B;
-    --hero-accent: #96C5F7;
-    --hero-accent-alt: #93ACB5;
-    --hero-accent-contrast: #FFFFFF;
-    --hero-transition: 0.25s ease;
+    --hero-bg: var(--color-surface);
+    --hero-text: var(--color-text);
+    --hero-text-muted: var(--color-text-muted);
+    --hero-accent: var(--color-accent);
+    --hero-accent-alt: var(--color-accent-alt);
+    --hero-accent-contrast: var(--color-on-accent);
+    --hero-transition: var(--transition-base);
   
     position: relative;
     min-height: 100svh;
@@ -89,13 +89,13 @@
     padding: 0.9rem 1.75rem;
     border-radius: 0.5rem;
     cursor: pointer;
-    transition: transform 0.15s ease, filter var(--hero-transition),
+    transition: transform var(--transition-press), filter var(--hero-transition),
       background var(--hero-transition), border-color var(--hero-transition);
   }
   
   .hero__btn--primary {
     color: var(--hero-text);
-    background: #F2F4FF;
+    background: var(--color-surface);
     border: 1px solid transparent;
   }
   
@@ -118,12 +118,12 @@
   }
   
   .hero__btn:active {
-    transform: scale(0.97);
+    transform: scale(var(--press-scale));
   }
   
   .hero__btn:focus-visible {
-    outline: 0.125rem solid var(--hero-accent);
-    outline-offset: 0.1875rem;
+    outline: var(--focus-ring-width) solid var(--hero-accent);
+    outline-offset: var(--focus-ring-offset);
   }
   
   @media (max-width: 30rem) {
