@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
+import { SITE_NAV_LINKS, sectionHref } from "../constants/site.js";
 import "./Navbar.css";
-
-const NAV_LINKS = ["Home", "Features", "About"];
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -27,10 +26,10 @@ export default function Navbar() {
           id="navbar-menu"
           className={`navbar__menu ${isMenuOpen ? "navbar__menu--open" : ""}`}
         >
-          {NAV_LINKS.map((link) => (
+          {SITE_NAV_LINKS.map((link) => (
             <li key={link} className="navbar__item">
               <a
-                href={`#${link.toLowerCase()}`}
+                href={sectionHref(link)}
                 className="navbar__link"
                 onClick={closeMenu}
               >

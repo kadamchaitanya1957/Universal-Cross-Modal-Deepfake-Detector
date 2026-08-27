@@ -1,14 +1,14 @@
 .navbar {
     --navbar-bg: #e8ebf8;
-    --navbar-bg-scrolled: rgba(242, 244, 255, 0.9);
-    --navbar-border: rgba(108, 117, 107, 0.15);
-    --navbar-text: #2E3530;
-    --navbar-text-muted: #6C756B;
+    --navbar-bg-scrolled: var(--color-surface-translucent);
+    --navbar-border: var(--color-border-subtle);
+    --navbar-text: var(--color-text-strong);
+    --navbar-text-muted: var(--color-text-muted);
     --navbar-accent: #d1ddea;
-    --navbar-accent-contrast: #FFFFFF;
+    --navbar-accent-contrast: var(--color-on-accent);
     --navbar-height: 4.25rem;
     --navbar-gap: 2rem;
-    --navbar-transition: 0.25s ease;
+    --navbar-transition: var(--transition-base);
     
     box-shadow: 0 1rem 2rem rgba(64, 63, 63, 0.35);
     position: sticky;
@@ -119,7 +119,7 @@
   }
   
   .navbar__cta:active {
-    transform: scale(0.97);
+    transform: scale(var(--press-scale));
   }
   
   .navbar__toggle {
@@ -160,8 +160,8 @@
   .navbar__logo:focus-visible,
   .navbar__cta:focus-visible,
   .navbar__toggle:focus-visible {
-    outline: 0.125rem solid var(--navbar-accent);
-    outline-offset: 0.1875rem;
+    outline: var(--focus-ring-width) solid var(--navbar-accent);
+    outline-offset: var(--focus-ring-offset);
     border-radius: 0.25rem;
   }
   

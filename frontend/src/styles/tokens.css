@@ -1,0 +1,21 @@
+:root {
+  --color-surface: #f2f4ff;
+  --color-surface-translucent: rgba(242, 244, 255, 0.9);
+
+  --color-text: #000000;
+  --color-text-strong: #2e3530;
+  --color-text-muted: #6c756b;
+
+  --color-border-subtle: rgba(108, 117, 107, 0.15);
+
+  --color-accent: #96c5f7;
+  --color-accent-alt: #93acb5;
+  --color-on-accent: #ffffff;
+
+  --transition-base: 0.25s ease;
+  --transition-press: 0.15s ease;
+  --press-scale: 0.97;
+
+  --focus-ring-width: 0.125rem;
+  --focus-ring-offset: 0.1875rem;
+}
