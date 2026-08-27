@@ -226,3 +226,7 @@ __marimo__/
 # Upload Folder
 uploads/*
 !uploads/.gitignore
+
+# Uploaded user files
+backend/uploads/
+uploads/
